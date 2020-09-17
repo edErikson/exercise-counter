@@ -76,7 +76,7 @@ def insert_done_acts_test_data():
     for line in test_db_record(350):
         add_done_act(line[0], line[1], line[2], line[3])
     print('Finished')
-    
+
 
 if __name__ == "__main__":
     if not os.path.isfile("exercise.db"):
