@@ -71,5 +71,8 @@ def get_done_acts():
     return db_connection(sql_command_dict['all_done_acts_sql'], receive=True)
 
 
+################################
+def get_all_stats():
+    return db_connection(sql_command_dict['all_stat_sql'], receive=True)
 
 
