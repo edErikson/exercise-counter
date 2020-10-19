@@ -1,4 +1,17 @@
 import sqlite3
+import logging
+
+# Create a logging instance
+logger = logging.getLogger('database')
+logger.setLevel(logging.INFO) # you can set this to be DEBUG, INFO, ERROR
+# Assign a file-handler to that instance
+fh = logging.FileHandler("db_log.txt")
+fh.setLevel(logging.DEBUG) # again, you can set this differently
+# Format your logs (optional)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter) # This will set the format to the file handler
+# Add the handler to your logging instance
+logger.addHandler(fh)
 
 sql_command_dict = {
     'first_sql': "CREATE TABLE IF NOT EXISTS acts(act_id INTEGER PRIMARY KEY, act_name TEXT NOT NULL UNIQUE)",
@@ -28,7 +41,6 @@ def db_connection(sql_task, data=None, receive=False):
         cursor.execute(sql_task, data)
     else:
         cursor.execute(sql_task)
-
     if receive:
         return cursor.fetchall()
     else:
@@ -43,6 +55,7 @@ def first_time_db():
         db_connection(sql_command_dict['second_sql'])
         print("created :", db_connection(sql_command_dict['done_acts_column_name_sql'], receive=True))
     except Exception as e:
+        logger.exception(e)
         print('Error on string: ', e)
 
 
@@ -64,7 +77,10 @@ def add_done_act(act_id, quantity, date, time):
 
 
 def get_acts():
-    return db_connection(sql_command_dict['all_acts_sql'], receive=True)
+    try:
+        return db_connection(sql_command_dict['all_acts_sql'], receive=True)
+    except Exception as e:
+        logger.exception(e)
 
 
 def get_done_acts():
@@ -72,6 +88,7 @@ def get_done_acts():
 
 
 ################################
+
 def get_all_stats():
     return db_connection(sql_command_dict['all_stat_sql'], receive=True)
 
