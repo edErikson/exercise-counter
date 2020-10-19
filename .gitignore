@@ -3,3 +3,4 @@ __pycache__/
 *.db
 /.idea
 /venv
+db_log.txt

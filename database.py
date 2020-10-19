@@ -6,7 +6,7 @@ logger = logging.getLogger('database')
 logger.setLevel(logging.INFO) # you can set this to be DEBUG, INFO, ERROR
 # Assign a file-handler to that instance
 fh = logging.FileHandler("db_log.txt")
-fh.setLevel(logging.DEBUG) # again, you can set this differently
+fh.setLevel(logging.INFO) # again, you can set this differently
 # Format your logs (optional)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 fh.setFormatter(formatter) # This will set the format to the file handler
@@ -70,6 +70,7 @@ def get_column_names():
 
 def add_act(name):
     db_connection(sql_command_dict['add_act_sql'], (name,))
+    logger.info('added act ', name)
 
 
 def add_done_act(act_id, quantity, date, time):
